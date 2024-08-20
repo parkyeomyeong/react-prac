@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   MdCheckBoxOutlineBlank,
-  MdcCheckBox,
+  MdCheckBox,
   MdRemoveCircleOutline,
 } from "react-icons/md";
+import cn from "classnames";
+import "./TodoListItem.scss";
 
-const TodoListItem = () => {
+const TodoListItem = ({ todo, onRemove, onToggle }) => {
+  const { id, text, checked } = todo;
+
+  const onClick = useCallback(() => {
+    onRemove(todo.id);
+  }, [todo, onRemove]);
   return (
-    <div>
-      <div>
-        <MdCheckBoxOutlineBlank />
-        <div>할 일</div>
+    <div className="TodoListItem">
+      <div className={cn("checkbox", { checked })} onClick={() => onToggle(id)}>
+        {checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
+        <div className="text">{text}</div>
       </div>
-      <div className="remove">
+      <div className="remove" onClick={onClick}>
         <MdRemoveCircleOutline />
       </div>
     </div>
